@@ -1,0 +1,1 @@
+#about string deal functions
