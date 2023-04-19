@@ -27,21 +27,22 @@ bool Read_from_head_context(const char *pathname, std::string &result){
 
 // 倒着读最后一行 
 bool Read_from_down_context(const char *pathname, std::string &result){
+	char ch;// 偏移单位 
 	std::ifstream File(pathname, std::ios::in);// 采用默认方式打开 
 	if(!File){
 		printf("open file failed ! \n"); 
 		return false;
 	}
-	File.seekg(-2, File.end); // 先定位到文件末尾 但在eof前 
-	while(File.peek() != File.widen('\n') &&File.peek() != File.widen('\r')){ // 应对Windows 和 linux 的不同 
+	File.seekg(-sizeof(ch), File.end); // 先定位到文件末尾 但在eof前 
+	while(File.peek() != File.widen('\n') && File.peek() != File.widen('\r')){ // 应对Windows 和 linux 的不同 
 		if(File.tellg() <=1) { // 当文件只有一行时 
 			File.seekg(0, File.beg);
 			getline(File,result);
 			return true;
 		}
-		File.seekg(-2,File.cur); // 注意char是两个字节 
+		File.seekg(-sizeof(ch),File.cur); // 注意char是两个字节 
 	}
-	File.seekg(1,std::ios::cur); // 向前移动一个字符到最后一行 
+	File.seekg(1,std::ios::cur); // 向前移动一个字节到最后一行 
 	getline(File,result);
 	File.close();
 	return true;
@@ -64,8 +65,9 @@ int main(){
 	-- ios::beg offset 只可正，ios::end 只可负 
 	
 	* 文件流类成员函数 
-	* int tellg();	// 返回从文件头开始到当前读指针的文件长度 ，返回为字节个数 
-	* int tellp();  // 返回写指针的 
+	* std::fstream::pos_type tellg();	// 返回从文件头开始到当前读指针的文件长度 ，返回为字节个数 
+	* std::fstream::pos_type tellp();  // 返回写指针的 
+	// pos_type 类似于 int，如果tellg() 或  tellp() 返回失败是 std::fstream::pos_type(-1) 
 	
 	* 文件流类成员函数
 	*  peek() 表示预读取下一个字符
