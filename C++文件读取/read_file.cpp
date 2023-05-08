@@ -8,6 +8,8 @@
 #include<iostream>
 #include<string>
 #include<fstream>
+#include<vector>
+using namespace std; 
 
 // 正着读最后一行 
 bool Read_from_head_context(const char *pathname, std::string &result){
@@ -49,7 +51,6 @@ bool Read_from_down_context(const char *pathname, std::string &result){
 }
 
 int main(){
-	
 	std::string str = "";
 	Read_from_down_context("test.txt",str);
 	printf("%s\n", str.c_str());
