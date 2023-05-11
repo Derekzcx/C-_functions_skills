@@ -100,7 +100,7 @@ bool Get_XML_Data(const char* xmlbuffer, const char *fieldname, char* value, con
 	SNPRINTF(m_sfieldname, sizeof(m_sfieldname), 50, "<%s>", fieldname); // 标签头 
 	SNPRINTF(m_efieldname, sizeof(m_efieldname), 50, "</%s>", fieldname); // 标签尾
 	
-	start = (char*)strstr(xmlbuffer, m_sfieldname);
+	start = (char*)strstr(xmlbuffer, m_sfieldname); // 采用 C++ 的find，得到的是子串第一次出现的位置 
 	if(start != 0){
 		end = (char*)strstr(xmlbuffer, m_efieldname);
 	} 
